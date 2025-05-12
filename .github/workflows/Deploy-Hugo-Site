@@ -1,0 +1,43 @@
+name: Deploy Hugo Site
+
+# Define los eventos que desencadenan el flujo
+on:
+  push:
+    branches:
+      - main
+
+# Define los trabajos a ejecutar
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clona el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true # Incluye submódulos si tu sitio Hugo los usa
+
+      # Configura Hugo
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+
+      # Configura Node.js para npm
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Ejecuta npm install y construye el sitio con Hugo
+      - name: Install dependencies and build
+        run: npm install && hugo --gc --minify
+
+      # Despliega el contenido de la carpeta 'public' a GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
