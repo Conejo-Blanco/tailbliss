@@ -1,11 +1,12 @@
-baseURL: 'https://conejo-blanco.github.io/tailbliss/'
+baseURL: "/"
+canonifyURLs: false
+relativeURLs: true
 title: TailBliss
 languageCode: en-us
 DefaultContentLanguage: en
 enableEmoji: true
 enableGitInfo: true
 enableRobotsTXT: true
-canonifyURLs: true
 pagination:
   pagerSize: 6
 darkmode_js:
@@ -113,6 +114,10 @@ params:
 
 menu:
   main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 5
     - identifier: prose
       name: Prose
       url: /prose/
